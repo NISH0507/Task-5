@@ -1,24 +1,81 @@
-# Compiled class file
-*.class
 
-# Log file
-*.log
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
-# BlueJ files
-*.ctxt
+public class AddressBook {
+    private Map<String, Contact> contacts;
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+    public AddressBook() {
+        contacts = new HashMap<>();
+    }
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+    public void addContact(String name, String phoneNumber, String email) {
+        Contact contact = new Contact(name, phoneNumber, email);
+        contacts.put(name, contact);
+        System.out.println("Contact added successfully!");
+    }
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+    public void displayContacts() {
+        if (contacts.isEmpty()) {
+            System.out.println("Address book is empty.");
+        } else {
+            System.out.println("Address Book:");
+            for (Contact contact : contacts.values()) {
+                System.out.println(contact);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        AddressBook addressBook = new AddressBook();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("1. Add Contact");
+            System.out.println("2. Display Contacts");
+            System.out.println("3. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter phone number: ");
+                    String phoneNumber = scanner.nextLine();
+                    System.out.print("Enter email: ");
+                    String email = scanner.nextLine();
+                    addressBook.addContact(name, phoneNumber, email);
+                    break;
+                case 2:
+                    addressBook.displayContacts();
+                    break;
+                case 3:
+                    System.out.println("Exiting the address book. Goodbye!");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
+
+class Contact {
+    private String name;
+    private String phoneNumber;
+    private String email;
+
+    public Contact(String name, String phoneNumber, String email) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Phone: " + phoneNumber + ", Email: " + email;
+    }
+}
